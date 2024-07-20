@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	sub "github.com/martinlindhe/subtitles"
-	"github.com/miaomiaotech/sogou"
+	"github.com/xwjdsh/fy"
 )
 
 const (
@@ -19,8 +19,8 @@ const (
 
 func main() {
 	input := flag.String("i", "/dev/stdin", "the input subtitle file path")
-	fromLang := flag.String("from", sogou.English, "source language")
-	toLang := flag.String("to", sogou.Chinese, "target language")
+	fromLang := flag.String("from", fy.English, "source language")
+	toLang := flag.String("to", fy.Chinese, "target language")
 	both := flag.Bool("both", false, "output both language")
 	flag.Parse()
 
@@ -51,29 +51,28 @@ func main() {
 		os.Exit(2)
 	}
 
-	xxx := &sogou.Sogou{}
 	newSub := sub.Subtitle{Captions: make([]sub.Caption, len(subtitle.Captions))}
 	ctx := context.Background()
 
 	log.Printf("total %d captions, start translating...", len(subtitle.Captions))
-	parallel := make(chan bool, 3)
+	parallel := make(chan bool, 1)
 	for i, caption := range subtitle.Captions {
 		parallel <- true
 		go func() {
 			defer func() { <-parallel }()
 
-			log.Printf("translating seq %v, at %v", caption.Seq, caption.Start.Format(timeFmt))
+			log.Printf("\tseq %v, at %v", caption.Seq, caption.Start.Format(timeFmt))
 			var lines []string
 			for _, line := range caption.Text {
 				if *both {
 					lines = append(lines, line)
 				}
-				res := xxx.Translate(ctx, sogou.Request{FromLang: *fromLang, ToLang: *toLang, Text: line})
+				res := fy.SogouTranslate(ctx, fy.Request{FromLang: *fromLang, ToLang: *toLang, Text: line})
 				if res.Err != nil {
-					log.Printf("translate failed, seq %v, at %v, err: %v", caption.Seq, caption.Start.Format(timeFmt), res.Err)
+					log.Printf("\t\ttranslate failed, seq %v, at %v, err: %v", caption.Seq, caption.Start.Format(timeFmt), res.Err)
 					continue
 				}
-				log.Printf("%v -> %v", line, res.Result)
+				log.Printf("\t\t%v -> %v", line, res.Result)
 				lines = append(lines, res.Result)
 			}
 

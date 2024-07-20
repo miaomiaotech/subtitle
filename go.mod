@@ -3,9 +3,13 @@ module github.com/miaomiaotech/subtitle-translate
 go 1.22.3
 
 require (
+	github.com/martinlindhe/subtitles v0.0.0-20240626201646-101f04175874
+	github.com/xwjdsh/fy v0.6.0
+)
+
+require (
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/kennygrant/sanitize v1.2.4 // indirect
-	github.com/martinlindhe/subtitles v0.0.0-20240626201646-101f04175874 // indirect
-	github.com/miaomiaotech/sogou v0.0.0-20240720011433-b8e64f517e9f // indirect
 	github.com/robertkrimen/otto v0.4.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/tidwall/gjson v1.17.1 // indirect
