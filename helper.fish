@@ -4,9 +4,9 @@ function download-subitltes -a ext
         echo $x
         thunder-subtitle -i 1 $x
     end
-    echo 1. open https://srttran.leavesc.com to translate
-    echo 2. copy results to the same directory
-    echo 3. run merge-all-subtitles
+    echo '1. open https://srttran.leavesc.com to translate'
+    echo '2. copy results to the same directory'
+    echo '3. run merge-all-subtitles'
 end
 
 # go install -v -ldflags "-s -w" github.com/miaomiaotech/subtitle/cmd/merge-subtitles@latest
