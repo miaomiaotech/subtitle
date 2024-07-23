@@ -1,4 +1,4 @@
-module github.com/miaomiaotech/subtitle-translate
+module github.com/miaomiaotech/subtitle
 
 go 1.22.3
 
